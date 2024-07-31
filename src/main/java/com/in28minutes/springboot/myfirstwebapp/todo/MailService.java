@@ -5,12 +5,13 @@ import jakarta.mail.internet.MimeMessage;
  
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+
+import com.in28minutes.springboot.myfirstwebapp.Contact;
  
  
  
@@ -44,7 +45,7 @@ public class MailService {
 	 * @throws MailException
 	 */
  
-	public void sendEmail(User user) throws MailException {
+	public void sendEmail(Contact contact) throws MailException {
  
 		/*
 		 * This JavaMailSender Interface is used to send Mail in Spring Boot. This
@@ -54,9 +55,16 @@ public class MailService {
 		 */
  
 		SimpleMailMessage mail = new SimpleMailMessage();
-		mail.setTo(user.getEmailAddress());
-		mail.setSubject("Testing Mail API");
-		mail.setText("Hurray ! You have done that dude...");
+		mail.setTo(contact.getEmail());
+		mail.setSubject("Mail from Nandhu Suresh");
+		mail.setText("Dear "+contact.getName()+","+"\n"
+		        +"........................................................................"+"\n"
+                + "Your Message: "+"\n"+contact.getText()+"\n"
+                +"Thanks for your interest . I’ll get back to you with a quote within the hour."+"\n"
+                +"........................................................................"+"\n"
+                
+                +"Thank you"+"\n"
+                +"Nandhu Suresh❤");
  
 		/*
 		 * This send() contains an Object of SimpleMailMessage as an Parameter
@@ -75,13 +83,14 @@ public class MailService {
  
 		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
-		String MainText="Hey " +user.getName()+","+"\n"+"We received your Request for "+"\n" +user.getText()+"\n";
- 
 		helper.setTo(user.getEmailAddress());
-		helper.setSubject("Drug Reaction Prototype");
-		helper.setText(MainText+"We have attached the Document of our pdf for your reference with this email"+"\n"+"Thank you,"+"\n"+"Nash");	
+		helper.setSubject("Nandhu Resume");
+        helper.setText("Dear Recruiter,"+"\n"
+                + "Please find the attached document below."+"\n"
+                +"Thank you"+"\n"
+                +"Nandhu Suresh❤");  	
  
-       ClassPathResource classPathResource = new ClassPathResource("sample1.pdf");
+       ClassPathResource classPathResource = new ClassPathResource("resume.pdf");
 		helper.addAttachment(classPathResource.getFilename(), classPathResource);
  
 		javaMailSender.send(mimeMessage);
