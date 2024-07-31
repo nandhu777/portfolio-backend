@@ -41,6 +41,14 @@ public class TodoControllerJpa {
 		
 		@Autowired
 		private Repo repo;
+		
+		
+		@RequestMapping("/testing")
+		@ResponseBody
+		public String nash() {
+			return "working";
+		}
+		
 
 		@RequestMapping("send-mail")
 		@ResponseBody
